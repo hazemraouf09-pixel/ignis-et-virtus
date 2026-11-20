@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, inital-scale=1.0" />
+<title></title>
+<style type="text/css">
+:root {
+  --bg-obsidian: #0d0504;
+  --bg-charcoal: #170907;
+  --bg-panel: #210c09;
+  --bg-card: #2b100c;
+  --red-crimson: #dc2626;
+  --red-blood: #991b1b;
+  --orange-ember: #f97316;
+  --orange-blaze: #ea580c;
+  --amber-glow: #fb923c;
+  --text-parchment: #f8ede8;
+  --text-muted: #c49b91;
+  --border-ember: rgba(249, 115, 22, 0.35);
+  --border-crimson: rgba(220, 38, 38, 0.45);
+  --shadow-glow: 0 12px 35px rgba(220, 38, 38, 0.22);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-obsidian);
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(220, 38, 38, 0.16), transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(249, 115, 22, 0.14), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(153, 27, 27, 0.2), transparent 50%);
+  color: var(--text-parchment);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Roman Meander Top & Bottom Trim */
+.roman-trim {
+  height: 12px;
+  width: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--red-crimson) 0px,
+    var(--red-crimson) 18px,
+    var(--bg-obsidian) 18px,
+    var(--bg-obsidian) 24px,
+    var(--orange-ember) 24px,
+    var(--orange-ember) 42px,
+    var(--bg-obsidian) 42px,
+    var(--bg-obsidian) 48px
+  );
+  border-bottom: 1px solid var(--border-ember);
+}
+
+.container {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+/* Header / Hero */
+header {
+  text-align: center;
+  padding: 2rem 1.5rem 2.25rem;
+  background: linear-gradient(180deg, var(--bg-panel), var(--bg-charcoal));
+  border: 1px solid var(--border-ember);
+  border-radius: 16px;
+  box-shadow: var(--shadow-glow);
+  position: relative;
+  margin-bottom: 1.75rem;
+}
+
+.crest-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  background: rgba(220, 38, 38, 0.18);
+  border: 1px solid var(--red-crimson);
+  color: var(--amber-glow);
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+h1 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.9rem, 4.5vw, 3.1rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  background: linear-gradient(90deg, #ffedd5, var(--orange-ember), var(--red-crimson));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 24px rgba(249, 115, 22, 0.25);
+  margin-bottom: 0.6rem;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  max-width: 650px;
+  margin: 0 auto 1.4rem;
+  font-size: 1rem;
+}
+
+.status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.stat-pill {
+  background: var(--bg-obsidian);
+  border: 1px solid var(--border-ember);
+  border-radius: 10px;
+  padding: 0.55rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.92rem;
+}
+
+.stat-pill span.val {
+  color: var(--orange-ember);
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.tab-btn {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-crimson);
+  color: var(--text-muted);
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.95rem 0.75rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  letter-spacing: 0.04em;
+}
+
+.tab-btn:hover {
+  border-color: var(--orange-ember);
+  color: var(--text-parchment);
+  transform: translateY(-2px);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--red-blood), var(--orange-blaze));
+  color: #fff;
+  border-color: var(--amber-glow);
+  box-shadow: 0 8px 22px rgba(234, 88, 12, 0.35);
+}
+
+/* Panels */
+.section-panel {
+  display: none;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-ember);
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-glow);
+  animation: fadeIn 0.3s ease;
+}
+
+.section-panel.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--border-crimson);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.45rem;
+  color: var(--orange-ember);
+  letter-spacing: 0.04em;
+}
+
+.no-timer-tag {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  background: rgba(249, 115, 22, 0.14);
+  border: 1px solid var(--orange-ember);
+  color: var(--amber-glow);
+}
+
+/* Quiz Styling */
+.progress-wrap {
+  margin-bottom: 1.5rem;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 0.45rem;
+  font-family: 'Cinzel', serif;
+}
+
+.progress-track {
+  width: 100%;
+  height: 10px;
+  background: var(--bg-obsidian);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border-crimson);
+}
+
+.progress-fill {
+  height: 100%;
+  width: 12.5%;
+  background: linear-gradient(90deg, var(--red-crimson), var(--orange-ember));
+  transition: width 0.35s ease;
+}
+
+.question-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-ember);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.trial-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  color: var(--amber-glow);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.4rem;
+}
+
+.question-text {
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: var(--text-parchment);
+}
+
+.options-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.option-btn {
+  width: 100%;
+  text-align: left;
+  background: var(--bg-charcoal);
+  border: 1px solid var(--border-crimson);
+  color: var(--text-parchment);
+  padding: 1rem 1.15rem;
+  border-radius: 12px;
+  font-size: 0.98rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: var(--orange-ember);
+  background: rgba(249, 115, 22, 0.12);
+  transform: translateX(4px);
+}
+
+.option-numeral {
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  color: var(--orange-ember);
+  min-width: 28px;
+}
+
+.option-btn.correct {
+  background: rgba(249, 115, 22, 0.22);
+  border-color: var(--orange-ember);
+  box-shadow: 0 0 18px rgba(249, 115, 22, 0.25);
+}
+
+.option-btn.wrong {
+  background: rgba(153, 27, 27, 0.35);
+  border-color: var(--red-crimson);
+  opacity: 0.78;
+}
+
+.feedback-banner {
+  margin-top: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: 12px;
+  background: var(--bg-obsidian);
+  border-left: 4px solid var(--orange-ember);
+  display: none;
+}
+
+.feedback-banner.show {
+  display: block;
+}
+
+.feedback-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  color: var(--orange-ember);
+  margin-bottom: 0.25rem;
+}
+
+.action-row {
+  margin-top: 1.35rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+.complete-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 1.75rem;
+  color: var(--orange-ember);
+  margin-bottom: 0.6rem;
+}
+
+.complete-summary {
+  max-width: 580px;
+  margin: 0 auto 1.5rem;
+  color: var(--text-muted);
+}
+
+.complete-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, var(--red-crimson), var(--orange-blaze));
+  color: #fff;
+  border: 1px solid var(--amber-glow);
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+}
+
+.secondary-btn {
+  background: var(--bg-obsidian);
+  color: var(--amber-glow);
+  border: 1px solid var(--border-ember);
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Mini Game Styling */
+.game-controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-obsidian);
+  border: 1px solid var(--border-crimson);
+  padding: 0.85rem 1.15rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.game-metrics {
+  display: flex;
+  gap: 1.25rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+}
+
+.game-metrics strong {
+  color: var(--orange-ember);
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid var(--border-ember);
+  background: radial-gradient(circle at center, #260d09 0%, #0b0403 100%);
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 400px;
+  touch-action: none;
+}
+
+.game-hint {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin-top: 0.8rem;
+}
+
+/* Scoreboard Styling */
+.name-input-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  background: var(--bg-obsidian);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-ember);
+}
+
+.name-input-bar input {
+  flex: 1;
+  min-width: 200px;
+  background: var(--bg-charcoal);
+  border: 1px solid var(--border-crimson);
+  color: var(--text-parchment);
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+}
+
+.name-input-bar input:focus {
+  outline: none;
+  border-color: var(--orange-ember);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.leaderboard-table th {
+  font-family: 'Cinzel', serif;
+  text-align: left;
+  padding: 0.9rem 1rem;
+  background: var(--bg-obsidian);
+  color: var(--orange-ember);
+  border-bottom: 2px solid var(--red-crimson);
+  letter-spacing: 0.05em;
+}
+
+.leaderboard-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(220, 38, 38, 0.22);
+}
+
+.leaderboard-table tr.player-row {
+  background: linear-gradient(90deg, rgba(220, 38, 38, 0.24), rgba(249, 115, 22, 0.2));
+  font-weight: 700;
+}
+
+.rank-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: rgba(249, 115, 22, 0.16);
+  border: 1px solid var(--orange-ember);
+  color: var(--amber-glow);
+}
+
+.pos-cell {
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  color: var(--orange-ember);
+}
+
+.total-cell {
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  color: var(--amber-glow);
+}
+
+@media (max-width: 640px) {
+  .nav-tabs {
+    grid-template-columns: 1fr;
+  }
+  canvas {
+    height: 340px;
+  }
+}
+</style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IGNIS ET VIRTUS — Roman Accountability Trials</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="roman-trim"></div>
+
+  <div class="container">
+    <header>
+      <div class="crest-badge">SPQR • ORDO RESPONSABILITATIS</div>
+      <h1>IGNIS ET VIRTUS</h1>
+      <p class="subtitle">
+        Forge your honor in the crimson fires of Rome. Complete all 8 Senate Trials of Accountability, defend your honor with the Scutum Shield, and claim your place in the Hall of Glory—at your own pace.
+      </p>
+      <div class="status-strip">
+        <div class="stat-pill">Senate Denarii: <span class="val" id="hdr-quiz-score">0</span></div>
+        <div class="stat-pill">Arena Honor: <span class="val" id="hdr-game-score">0</span></div>
+        <div class="stat-pill">Total Virtus: <span class="val" id="hdr-total-score">0</span></div>
+        <div class="stat-pill">Rank: <span class="val" id="hdr-rank">Tiro (Novice)</span></div>
+      </div>
+    </header>
+
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="quiz-panel">I. The 8 Senate Trials</button>
+      <button class="tab-btn" data-tab="game-panel">II. Shield of Virtus (Game)</button>
+      <button class="tab-btn" data-tab="board-panel">III. Hall of Glory (Scoreboard)</button>
+    </nav>
+
+    <!-- SECTION 1: 8 QUESTIONS QUIZ -->
+    <section id="quiz-panel" class="section-panel active">
+      <div class="section-header">
+        <h2>The 8 Senate Trials of Accountability</h2>
+        <span class="no-timer-tag">Untimed • Reflect &amp; Decide</span>
+      </div>
+
+      <div id="quiz-active-view">
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span id="trial-counter">Trial I of VIII</span>
+            <span id="quiz-points-label">Earned: 0 Denarii</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="question-box">
+          <div class="trial-label" id="question-theme">Decree of Ownership</div>
+          <div class="question-text" id="question-text">Loading trial...</div>
+        </div>
+
+        <div class="options-grid" id="options-grid"></div>
+
+        <div class="feedback-banner" id="feedback-banner">
+          <div class="feedback-title" id="feedback-title">Verdict</div>
+          <p id="feedback-text"></p>
+        </div>
+
+        <div class="action-row">
+          <button class="primary-btn" id="next-question-btn" style="display: none;">Proceed to Next Trial →</button>
+        </div>
+      </div>
+
+      <div id="quiz-complete-view" style="display: none; text-align: center; padding: 1.5rem 0;">
+        <div class="crest-badge">ALL VIII TRIALS CONCLUDED</div>
+        <h3 class="complete-heading">The Senate Has Witnessed Your Honor</h3>
+        <p id="quiz-summary-text" class="complete-summary"></p>
+        <div class="complete-actions">
+          <button class="secondary-btn" id="restart-quiz-btn">Retake the 8 Trials</button>
+          <button class="primary-btn" id="go-to-arena-btn">Enter the Arena Mini-Game →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: MINI-GAME -->
+    <section id="game-panel" class="section-panel">
+      <div class="section-header">
+        <h2>Scutum: Shield of Responsibility</h2>
+        <span class="no-timer-tag">Untimed • Endless Discipline</span>
+      </div>
+
+      <div class="game-controls-bar">
+        <div class="game-metrics">
+          <span>Arena Score: <strong id="game-live-score">0</strong></span>
+          <span>Best Run: <strong id="game-best-score">0</strong></span>
+          <span>Resolve (Shields): <strong id="game-lives">3</strong></span>
+        </div>
+        <button class="primary-btn" id="start-game-btn">Deploy Shield</button>
+      </div>
+
+      <div class="canvas-wrapper">
+        <canvas id="arena-canvas" width="900" height="400"></canvas>
+      </div>
+      <p class="game-hint">
+        Move with <strong>Mouse, Touch, or Left / Right Arrow Keys</strong>. Catch blazing <strong>Orange Virtues</strong> (+25 pts) and deflect dark <strong>Red Excuses</strong> (-1 Resolve). No clock—play until your Resolve breaks!
+      </p>
+    </section>
+
+    <!-- SECTION 3: SCOREBOARD -->
+    <section id="board-panel" class="section-panel">
+      <div class="section-header">
+        <h2>Hall of Eternal Glory</h2>
+        <span class="no-timer-tag">Combined Senate &amp; Arena Honor</span>
+      </div>
+
+      <div class="name-input-bar">
+        <input type="text" id="citizen-name-input" placeholder="Inscribe your Roman Citizen Name (e.g., Maximus)..." maxlength="24" />
+        <button class="primary-btn" id="save-name-btn">Inscribe Name</button>
+      </div>
+
+      <div class="table-scroll">
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Citizen / Legend</th>
+              <th>Roman Rank</th>
+              <th>Trials (8 Qs)</th>
+              <th>Arena</th>
+              <th>Total Virtus</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div class="roman-trim"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+(function() {
+// --- 8 ACCOUNTABILITY QUESTIONS ---
+const romanTrials = [
+  {
+    numeral: "I",
+    theme: "Decree I • Owning Mistakes",
+    question: "Your legion's supply report contains a miscalculation that you personally entered, delaying rations for the camp. How do you answer before the Tribune?",
+    options: [
+      "Explain that the scribe ink was poor and the previous shift rushed you.",
+      "Step forward immediately, admit the error was yours, and present the corrected ledger.",
+      "Quietly alter the scroll later and hope no centurion notices the discrepancy.",
+      "Point out that another cohort made a similar mistake two weeks ago."
+    ],
+    correct: 1,
+    explanation: "True Roman accountability begins with immediate ownership—admitting the fault without excuses and taking swift action to repair the harm."
+  },
+  {
+    numeral: "II",
+    theme: "Decree II • Proactive Communication",
+    question: "You realize two days before a deadline that an aqueduct blueprint you promised will require extra surveying to be safe. What is the accountable course?",
+    options: [
+      "Notify the architect immediately, explain the delay honestly, and propose a realistic new delivery hour.",
+      "Wait until the deadline arrives so you have more time to think of a reason.",
+      "Submit an incomplete blueprint on time and let the builders figure out the missing measurements.",
+      "Avoid the forum until the project is finished."
+    ],
+    correct: 0,
+    explanation: "Accountability means communicating obstacles early so others can adjust, rather than hiding behind silence until a commitment fails."
+  },
+  {
+    numeral: "III",
+    theme: "Decree III • Resisting the Blame Game",
+    question: "A joint chariot-repair task fails because instructions between you and a teammate were unclear. When questioned, what reflects genuine Virtus?",
+    options: [
+      "Insist your partner was responsible for reading the orders properly.",
+      "Claim nobody gave clear directions, so no one can be held responsible.",
+      "Acknowledge your share in not confirming the plan, and collaborate on fixing the axle.",
+      "Walk away from the workshop since the failure is already done."
+    ],
+    correct: 2,
+    explanation: "Even when a failure is shared, accountable leaders examine what they could have clarified or prevented first."
+  },
+  {
+    numeral: "IV",
+    theme: "Decree IV • Integrity When Unwatched",
+    question: "While guarding an outer watchtower alone at night, you notice a minor crack in the gate hinge that no inspector will check for months. What do you do?",
+    options: [
+      "Log the defect in the night watch scroll and report it to the master blacksmith at dawn.",
+      "Leave it alone since it did not break during your watch.",
+      "Assume the next guard will eventually notice it.",
+      "Cover the crack with mud so it looks intact."
+    ],
+    correct: 0,
+    explanation: "Accountability is defined by how you act when no superior is watching—protecting the whole community rather than doing the bare minimum."
+  },
+  {
+    numeral: "V",
+    theme: "Decree V • Receiving Hard Counsel",
+    question: "A mentor criticizes your strategy during Senate debate, pointing out blind spots you missed. How does an accountable citizen respond?",
+    options: [
+      "Attack the mentor's past defeats to shift attention away from your plan.",
+      "Listen without defensiveness, thank them for the insight, and refine the strategy.",
+      "Abandon the entire project out of pride.",
+      "Pretend to agree in public while ignoring every suggestion afterward."
+    ],
+    correct: 1,
+    explanation: "Welcoming constructive criticism turns feedback into strength rather than treating correction as a personal insult."
+  },
+  {
+    numeral: "VI",
+    theme: "Decree VI • Keeping Promises",
+    question: "You pledged to help a fellow citizen train for their civic exam, but a feast is announced for the same evening. What honors your word?",
+    options: [
+      "Cancel an hour before by sending a messenger with a vague excuse.",
+      "Attend the feast first and show up too exhausted to help.",
+      "Honor your prior commitment to help them prepare, celebrating only after your duty is fulfilled.",
+      "Tell them studying alone builds better character anyway."
+    ],
+    correct: 2,
+    explanation: "Reliability is the backbone of trust—your word should carry more weight than sudden convenience."
+  },
+  {
+    numeral: "VII",
+    theme: "Decree VII • Repairing Broken Trust",
+    question: "You spoke harshly to a junior apprentice in front of the guild and realize afterward that your anger was unjustified. What is the accountable repair?",
+    options: [
+      "Act extra friendly the next day without ever mentioning the incident.",
+      "Apologize directly, acknowledge the unfairness, and uphold respectful conduct going forward.",
+      "Explain that stress excuses sharp words in a busy forge.",
+      "Have another apprentice tell them you didn't mean it."
+    ],
+    correct: 1,
+    explanation: "A real apology names the wrong plainly, avoids self-excuses, and proves change through consistent future behavior."
+  },
+  {
+    numeral: "VIII",
+    theme: "Decree VIII • Stewardship of Resources",
+    question: "You are entrusted with the cohort's emergency silver reserve. A tempting personal opportunity arises that you believe you could pay back before anyone checks. What do you choose?",
+    options: [
+      "Keep the treasury untouched—entrusted resources are never yours to gamble with.",
+      "Borrow a small portion since you intend to return it.",
+      "Take it and record it as a miscellaneous supply expense.",
+      "Ask a friend to hold it for you until the opportunity pays off."
+    ],
+    correct: 0,
+    explanation: "Stewardship requires absolute boundaries: integrity means never risking what others have placed in your trust."
+  }
+];
+
+// --- STATE ---
+let currentQ = 0;
+let quizScore = 0;
+let answeredCurrent = false;
+let bestGameScore = 0;
+let citizenName = "You (Citizen)";
+
+// --- DOM ELEMENTS ---
+const hdrQuizScore = document.getElementById("hdr-quiz-score");
+const hdrGameScore = document.getElementById("hdr-game-score");
+const hdrTotalScore = document.getElementById("hdr-total-score");
+const hdrRank = document.getElementById("hdr-rank");
+
+function getRomanRank(total) {
+  if (total >= 950) return "Imperator of Virtus";
+  if (total >= 750) return "Consul of Rome";
+  if (total >= 550) return "Praetor of Honor";
+  if (total >= 350) return "Centurion";
+  if (total >= 150) return "Legionary";
+  return "Tiro (Novice)";
+}
+
+function updateGlobalStats() {
+  const total = quizScore + bestGameScore;
+  hdrQuizScore.textContent = quizScore;
+  hdrGameScore.textContent = bestGameScore;
+  hdrTotalScore.textContent = total;
+  hdrRank.textContent = getRomanRank(total);
+  renderLeaderboard();
+}
+
+// --- TABS ---
+function switchTab(tabId) {
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.tab === tabId);
+  });
+  document.querySelectorAll(".section-panel").forEach(panel => {
+    panel.classList.toggle("active", panel.id === tabId);
+  });
+  if (tabId === "board-panel") renderLeaderboard();
+}
+
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+});
+
+document.getElementById("go-to-arena-btn").addEventListener("click", () => {
+  switchTab("game-panel");
+});
+
+// --- QUIZ LOGIC ---
+function renderQuestion() {
+  answeredCurrent = false;
+  const q = romanTrials[currentQ];
+  document.getElementById("trial-counter").textContent = `Trial ${q.numeral} of VIII`;
+  document.getElementById("quiz-points-label").textContent = `Earned: ${quizScore} Denarii`;
+  document.getElementById("progress-fill").style.width = `${((currentQ + 1) / romanTrials.length) * 100}%`;
+  document.getElementById("question-theme").textContent = q.theme;
+  document.getElementById("question-text").textContent = q.question;
+
+  const feedbackBanner = document.getElementById("feedback-banner");
+  feedbackBanner.classList.remove("show");
+  document.getElementById("next-question-btn").style.display = "none";
+
+  const optionsGrid = document.getElementById("options-grid");
+  optionsGrid.innerHTML = "";
+  const numerals = ["I.", "II.", "III.", "IV."];
+
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.innerHTML = `<span class="option-numeral">${numerals[idx]}</span><span>${opt}</span>`;
+    btn.addEventListener("click", () => handleAnswer(idx, btn));
+    optionsGrid.appendChild(btn);
+  });
+}
+
+function handleAnswer(selectedIdx, selectedBtn) {
+  if (answeredCurrent) return;
+  answeredCurrent = true;
+
+  const q = romanTrials[currentQ];
+  const buttons = document.querySelectorAll(".option-btn");
+  buttons.forEach((b, idx) => {
+    b.disabled = true;
+    if (idx === q.correct) b.classList.add("correct");
+  });
+
+  const feedbackTitle = document.getElementById("feedback-title");
+  const feedbackText = document.getElementById("feedback-text");
+
+  if (selectedIdx === q.correct) {
+    quizScore += 100;
+    feedbackTitle.textContent = "Honor Proven! (+100 Denarii)";
+    feedbackTitle.style.color = "var(--orange-ember)";
+  } else {
+    selectedBtn.classList.add("wrong");
+    feedbackTitle.textContent = "A Lesson in Stoic Discipline (+0 Denarii)";
+    feedbackTitle.style.color = "var(--red-crimson)";
+  }
+
+  feedbackText.textContent = q.explanation;
+  document.getElementById("feedback-banner").classList.add("show");
+  document.getElementById("quiz-points-label").textContent = `Earned: ${quizScore} Denarii`;
+  updateGlobalStats();
+
+  const nextBtn = document.getElementById("next-question-btn");
+  nextBtn.textContent = currentQ === romanTrials.length - 1 ? "Complete the 8 Trials →" : "Proceed to Next Trial →";
+  nextBtn.style.display = "inline-block";
+}
+
+document.getElementById("next-question-btn").addEventListener("click", () => {
+  if (currentQ < romanTrials.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    document.getElementById("quiz-active-view").style.display = "none";
+    document.getElementById("quiz-complete-view").style.display = "block";
+    document.getElementById("quiz-summary-text").textContent =
+      `You earned ${quizScore} out of 800 Senate Denarii across all 8 Trials of Accountability. Test your reflexes in the Scutum Arena or inspect your rank in the Hall of Glory.`;
+  }
+});
+
+document.getElementById("restart-quiz-btn").addEventListener("click", () => {
+  currentQ = 0;
+  quizScore = 0;
+  updateGlobalStats();
+  document.getElementById("quiz-complete-view").style.display = "none";
+  document.getElementById("quiz-active-view").style.display = "block";
+  renderQuestion();
+});
+
+// --- MINI-GAME: SHIELD OF VIRTUS (UNTIMED) ---
+const canvas = document.getElementById("arena-canvas");
+const ctx = canvas.getContext("2d");
+const startGameBtn = document.getElementById("start-game-btn");
+const liveScoreEl = document.getElementById("game-live-score");
+const bestScoreEl = document.getElementById("game-best-score");
+const livesEl = document.getElementById("game-lives");
+
+let gameRunning = false;
+let gameScore = 0;
+let gameLives = 3;
+let shieldX = canvas.width / 2;
+const shieldW = 135;
+const shieldH = 22;
+let fallingItems = [];
+let keys = { left: false, right: false };
+let animFrameId = null;
+let frameCount = 0;
+
+const virtueWords = ["OWNERSHIP", "HONESTY", "DUTY", "INTEGRITY", "PROMISE", "HONOR"];
+const excuseWords = ["NOT MY FAULT", "I FORGOT", "BLAME OTHERS", "EXCUSES", "DENIAL"];
+
+function spawnItem() {
+  const isVirtue = Math.random() > 0.36;
+  const list = isVirtue ? virtueWords : excuseWords;
+  const label = list[Math.floor(Math.random() * list.length)];
+  fallingItems.push({
+    x: 75 + Math.random() * (canvas.width - 150),
+    y: -25,
+    speed: 2.4 + Math.min(gameScore / 220, 3.2) + Math.random() * 1.1,
+    isVirtue,
+    label,
+    w: 118,
+    h: 32
+  });
+}
+
+function drawIdleScreen() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#f97316";
+  ctx.font = "700 26px Cinzel, serif";
+  ctx.textAlign = "center";
+  ctx.fillText("SCUTUM: SHIELD OF RESPONSIBILITY", canvas.width / 2, canvas.height / 2 - 20);
+
+  ctx.fillStyle = "#c49b91";
+  ctx.font = "16px 'Plus Jakarta Sans', sans-serif";
+  ctx.fillText("Click 'Deploy Shield' to catch Orange Virtues and block Red Excuses. Untimed!", canvas.width / 2, canvas.height / 2 + 18);
+}
+
+function startArenaGame() {
+  gameRunning = true;
+  gameScore = 0;
+  gameLives = 3;
+  fallingItems = [];
+  frameCount = 0;
+  shieldX = canvas.width / 2;
+  liveScoreEl.textContent = gameScore;
+  livesEl.textContent = gameLives;
+  startGameBtn.textContent = "Restart Arena";
+  if (animFrameId) cancelAnimationFrame(animFrameId);
+  gameLoop();
+}
+
+function gameLoop() {
+  if (!gameRunning) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Subtle arena floor line
+  ctx.strokeStyle = "rgba(249, 115, 22, 0.25)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height - 22);
+  ctx.lineTo(canvas.width, canvas.height - 22);
+  ctx.stroke();
+
+  // Move shield via keyboard
+  if (keys.left) shieldX -= 8;
+  if (keys.right) shieldX += 8;
+  shieldX = Math.max(shieldW / 2 + 10, Math.min(canvas.width - shieldW / 2 - 10, shieldX));
+
+  // Draw Roman Scutum Shield
+  const sy = canvas.height - 44;
+  const grad = ctx.createLinearGradient(shieldX - shieldW / 2, sy, shieldX + shieldW / 2, sy + shieldH);
+  grad.addColorStop(0, "#991b1b");
+  grad.addColorStop(0.5, "#f97316");
+  grad.addColorStop(1, "#991b1b");
+
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.roundRect(shieldX - shieldW / 2, sy, shieldW, shieldH, 10);
+  ctx.fill();
+  ctx.strokeStyle = "#ffedd5";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Shield center boss
+  ctx.fillStyle = "#ffedd5";
+  ctx.beginPath();
+  ctx.arc(shieldX, sy + shieldH / 2, 6, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Spawn items periodically
+  frameCount++;
+  if (frameCount % 52 === 0) spawnItem();
+
+  // Update & draw items
+  for (let i = fallingItems.length - 1; i >= 0; i--) {
+    const item = fallingItems[i];
+    item.y += item.speed;
+
+    ctx.fillStyle = item.isVirtue ? "rgba(249, 115, 22, 0.24)" : "rgba(185, 28, 28, 0.32)";
+    ctx.strokeStyle = item.isVirtue ? "#f97316" : "#dc2626";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(item.x - item.w / 2, item.y - item.h / 2, item.w, item.h, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = item.isVirtue ? "#ffedd5" : "#fca5a5";
+    ctx.font = "700 12px Cinzel, serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(item.label, item.x, item.y);
+
+    // Collision check with shield
+    const hitX = Math.abs(item.x - shieldX) < (shieldW / 2 + item.w / 2 - 12);
+    const hitY = item.y + item.h / 2 >= sy && item.y - item.h / 2 <= sy + shieldH;
+
+    if (hitX && hitY) {
+      if (item.isVirtue) {
+        gameScore += 25;
+        liveScoreEl.textContent = gameScore;
+        if (gameScore > bestGameScore) {
+          bestGameScore = gameScore;
+          bestScoreEl.textContent = bestGameScore;
+          updateGlobalStats();
+        }
+      } else {
+        gameLives--;
+        livesEl.textContent = gameLives;
+      }
+      fallingItems.splice(i, 1);
+      continue;
+    }
+
+    if (item.y - item.h / 2 > canvas.height) {
+      fallingItems.splice(i, 1);
+    }
+  }
+
+  if (gameLives <= 0) {
+    gameRunning = false;
+    ctx.fillStyle = "rgba(13, 5, 4, 0.85)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#dc2626";
+    ctx.font = "900 30px Cinzel, serif";
+    ctx.textAlign = "center";
+    ctx.fillText("SHIELD SHATTERED", canvas.width / 2, canvas.height / 2 - 22);
+    ctx.fillStyle = "#ffedd5";
+    ctx.font = "18px Cinzel, serif";
+    ctx.fillText(`Final Arena Score: ${gameScore}  •  Best Run: ${bestGameScore}`, canvas.width / 2, canvas.height / 2 + 16);
+    return;
+  }
+
+  animFrameId = requestAnimationFrame(gameLoop);
+}
+
+startGameBtn.addEventListener("click", startArenaGame);
+
+function updatePointerX(clientX) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  shieldX = (clientX - rect.left) * scaleX;
+}
+
+canvas.addEventListener("mousemove", e => updatePointerX(e.clientX));
+canvas.addEventListener("touchmove", e => {
+  if (e.touches.length > 0) updatePointerX(e.touches[0].clientX);
+}, { passive: true });
+
+window.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") keys.left = true;
+  if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") keys.right = true;
+});
+window.addEventListener("keyup", e => {
+  if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") keys.left = false;
+  if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") keys.right = false;
+});
+
+// --- SCOREBOARD ---
+const legendaryCitizens = [
+  { name: "Marcus Aurelius", quiz: 800, arena: 325, isPlayer: false },
+  { name: "Lucius Cincinnatus", quiz: 700, arena: 275, isPlayer: false },
+  { name: "Cato the Younger", quiz: 700, arena: 175, isPlayer: false },
+  { name: "Cornelia Africana", quiz: 600, arena: 150, isPlayer: false },
+  { name: "Quintus Fabius", quiz: 400, arena: 125, isPlayer: false }
+];
+
+function renderLeaderboard() {
+  const tbody = document.getElementById("leaderboard-body");
+  const allEntries = [
+    ...legendaryCitizens,
+    { name: citizenName, quiz: quizScore, arena: bestGameScore, isPlayer: true }
+  ].map(entry => ({
+    ...entry,
+    total: entry.quiz + entry.arena
+  }));
+
+  allEntries.sort((a, b) => b.total - a.total);
+
+  const numerals = ["I", "II", "III", "IV", "V", "VI"];
+  tbody.innerHTML = allEntries.map((entry, idx) => `
+    <tr class="${entry.isPlayer ? "player-row" : ""}">
+      <td class="pos-cell">${numerals[idx] || idx + 1}</td>
+      <td>${entry.name} ${entry.isPlayer ? "🔥" : ""}</td>
+      <td><span class="rank-badge">${getRomanRank(entry.total)}</span></td>
+      <td>${entry.quiz} / 800</td>
+      <td>${entry.arena}</td>
+      <td class="total-cell">${entry.total}</td>
+    </tr>
+  `).join("");
+}
+
+document.getElementById("save-name-btn").addEventListener("click", () => {
+  const val = document.getElementById("citizen-name-input").value.trim();
+  if (val) {
+    citizenName = val;
+    renderLeaderboard();
+  }
+});
+
+// --- INIT ---
+renderQuestion();
+drawIdleScreen();
+updateGlobalStats();
+})();
+</script>
+</body>
+</html>
